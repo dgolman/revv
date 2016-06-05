@@ -17,4 +17,6 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'quiet_assets'
 
+gem 'haml-rails'
+
 gem 'highline', require: false # used for setup rake task

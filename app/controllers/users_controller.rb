@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # Most actions here need a logged in user.
   # ApplicationHelper#current_user will return the logged in user.
-  before_action :require_user, except: %w{ new create }
+  before_action :require_user, except: %w{ new create pay }
 
   # A list of all users in the database.
   # app/views/users/index.html.haml
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     user = User.find( params[:id] )
 
     # Charge $10.
-    amount = 1000
+    amount = params[:amount]
     # Calculate the fee amount that goes to the application.
     fee = (amount * Rails.application.secrets.fee_percentage).to_i
 
@@ -58,31 +58,22 @@ class UsersController < ApplicationController
         amount: amount,
         currency: user.currency,
         source: params[:token],
-        description: "Test Charge via Stripe Connect",
+        description: params[:product],
         application_fee: fee
       }
+      # Use the user-to-be-paid's access token
+      # to make the charge directly on their account
+      charge = Stripe::Charge.create( charge_attrs, user.secret_key )
+      
 
-      case params[:charge_on]
-      when 'connected'
-        # Use the user-to-be-paid's access token
-        # to make the charge directly on their account
-        charge = Stripe::Charge.create( charge_attrs, user.secret_key )
-      when 'platform'
-        # Use the platform's access token, and specify the
-        # connected account's user id as the destination so that
-        # the charge is transferred to their account.
-        charge_attrs[:destination] = user.stripe_user_id
-        charge = Stripe::Charge.create( charge_attrs )
-      end
-
-      flash[:notice] = "Charged successfully! <a target='_blank' rel='#{params[:charge_on]}-account' href='https://dashboard.stripe.com/test/payments/#{charge.id}'>View in dashboard &raquo;</a>"
+      flash[:success] = "Charged successfully! <a target='_blank' rel='#{params[:charge_on]}-account' href='https://dashboard.stripe.com/test/payments/#{charge.id}'>View in dashboard &raquo;</a>"
 
     rescue Stripe::CardError => e
       error = e.json_body[:error][:message]
       flash[:error] = "Charge failed! #{error}"
     end
 
-    redirect_to user_path( user )
+    redirect_to root_path
   end
 
   # Subscribe the currently logged in user to

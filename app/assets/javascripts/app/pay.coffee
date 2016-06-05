@@ -9,7 +9,7 @@ $(document).ready ->
 
   payButton = $('.pay-button')
   form = payButton.closest('form')
-  destination = form.find('select[name=charge_on]')
+  destination = 'connected'
   indicator = form.find('.indicator').height( form.outerHeight() )
   handler = null
 
@@ -17,7 +17,7 @@ $(document).ready ->
     handler = StripeCheckout.configure
       # Grab the correct publishable key. Depending on
       # the selection in the interface.
-      key: window.publishable[destination.val()]
+      key: window.publishable[destination]
 
       # The email of the logged in user.
       email: window.currentUserEmail
@@ -30,7 +30,6 @@ $(document).ready ->
         form.find('input[name=token]').val( token.id )
         form.get(0).submit()
 
-  destination.change createHandler
   createHandler()
 
   payButton.click ( e ) ->
@@ -38,6 +37,6 @@ $(document).ready ->
     form.addClass( 'processing' )
 
     handler.open
-      name: 'Rails Connect Example'
-      description: '$10 w/ 10% fees'
-      amount: 1000
+      name: form.find('input[name=product]').val()
+      description: 'Making a purchase'
+      amount: form.find('input[name=amount]').val()

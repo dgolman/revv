@@ -1,0 +1,27 @@
+%br
+.col-md-8.col-md-offset-2.col-xs-12
+  - if flash[:notice]
+    .alert.alert-info.auto
+      %p= flash[:notice]
+
+= form_tag pay_user_path( @user ) do
+  .indicator
+  = hidden_field_tag :token
+  = hidden_field_tag :amount, (@product.price.to_f * 100).to_i
+  = hidden_field_tag :product, @product.name
+  .panel.panel-primary.home
+    .panel-body
+      %h1= @product.name
+      %p= @product.description
+      .buttons
+        %button.btn.btn-primary.btn-lg.pay-button Pay #{number_with_precision(@product.price, precision: 2)}
+
+= javascript_include_tag 'https://checkout.stripe.com/checkout.js'
+:javascript
+  // You can select to pay either directly or via the platform, so
+  // we need both publishable keys here.
+  window.publishable = {
+    platform: #{Rails.application.secrets.stripe_publishable_key.to_json},
+    connected: #{@user.publishable_key.to_json}
+  };
+  window.payPath = #{pay_user_path( @user ).to_json};

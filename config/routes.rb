@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :products
+
+  resources :generates
+
   root to: 'home#index'
 
   resources :users do

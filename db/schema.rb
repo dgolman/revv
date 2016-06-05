@@ -11,20 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150318194136) do
+ActiveRecord::Schema.define(version: 20160605212105) do
+
+  create_table "products", force: :cascade do |t|
+    t.text     "name"
+    t.decimal  "price"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",                   limit: 255
-    t.string   "email",                  limit: 255
-    t.string   "password_digest",        limit: 255
-    t.string   "publishable_key",        limit: 255
-    t.string   "secret_key",             limit: 255
-    t.string   "stripe_user_id",         limit: 255
-    t.string   "currency",               limit: 255
+    t.string   "name",                  limit: 255
+    t.string   "email",                 limit: 255
+    t.string   "password_digest",       limit: 255
+    t.string   "publishable_key",       limit: 255
+    t.string   "secret_key",            limit: 255
+    t.string   "stripe_user_id",        limit: 255
+    t.string   "currency",              limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "stripe_account_type"
-    t.text     "stripe_account_status",              default: "{}"
+    t.text     "stripe_account_status",             default: "{}"
   end
 
 end
