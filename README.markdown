@@ -2,17 +2,20 @@
 
 This repository contains the bare-bones example Stripe Connect application plus my additions to match the requirements for the Revv Technical Challenge
 
-## Pre-requisites
-
-Login to Main Stripe:
+## Pre-requisites (Stripe Login)
+	
 	Email: revvtechchallenge@gmail.com
 	Password: revvdonate
 
 ## Testing
 
+### Step 0
+
+Visit [https://sheltered-oasis-34225.herokuapp.com/](https://sheltered-oasis-34225.herokuapp.com/)
+
 ### Step 1
 
-View products
+View products - [https://sheltered-oasis-34225.herokuapp.com/products](https://sheltered-oasis-34225.herokuapp.com/products)
 
 ### Step 2
 
