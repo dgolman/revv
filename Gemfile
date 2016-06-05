@@ -20,3 +20,6 @@ gem 'quiet_assets'
 gem 'haml-rails'
 
 gem 'highline', require: false # used for setup rake task
+
+gem 'rails_12factor', group: :production
+gem 'pg', group: :production
