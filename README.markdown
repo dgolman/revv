@@ -30,3 +30,8 @@ After making a purchase you will be redirected back to the home page with link e
 ## Aside
 
 Seller's account is created within my application using Standalone OAUTH. This can be viewed at [https://sheltered-oasis-34225.herokuapp.com/users](https://sheltered-oasis-34225.herokuapp.com/users)
+
+Login
+	
+	Email: revv+seller@gmail.com
+	Password: revvdonate
